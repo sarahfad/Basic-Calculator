@@ -1,3 +1,6 @@
+import tkinter as tk
+from tkinter import messagebox
+
 class CalculatorLogic:
     """Core logic for the calculator which calculates math expressions
         """
@@ -13,7 +16,8 @@ class CalculatorLogic:
             raise ValueError("Invaild characters in the expression")
         
         try:
-            result = eval(self.expression) = str(result)
+            result = eval(self.expression) 
+            self.expression = str(result)
             return result
         except Exception:
             raise ValueError("Invalid math expression")
@@ -30,4 +34,31 @@ class CalculatorLogic:
     def clear(self):
         """Removes the entire expression from the calculator"""
         self.expression = ""
+
+class CalculatorApp(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Basic Calculator")
+        self.logic = CalculatorLogic()
+        self.create_display()
     
+    def create_display(self):
+        self.display_var = tk.StringVar()
+        entry = tk.Entry(
+            self,
+            textvariable=self.display_var,
+            font=("Segoe UI", 20),
+            justify="right"
+        )
+        entry.grid(
+            row=0, 
+            column=0, 
+            columnspan=4, 
+            padx=5, 
+            pady=5, 
+            sticky="nsew"
+            )
+        
+if __name__ == "__main__":
+    app = CalculatorApp()
+    app.mainloop()
