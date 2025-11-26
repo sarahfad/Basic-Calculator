@@ -41,6 +41,7 @@ class CalculatorApp(tk.Tk):
         self.title("Basic Calculator")
         self.logic = CalculatorLogic()
         self.create_display()
+        self.create_buttons()
     
     def create_display(self):
         self.display_var = tk.StringVar()
@@ -57,6 +58,39 @@ class CalculatorApp(tk.Tk):
             padx=5, 
             pady=5, 
             sticky="nsew"
+            )
+    
+    def create_buttons(self):
+        buttons = [
+            ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3),
+            ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
+            ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3),
+            ("0", 4, 0), (".", 4, 1), ("C", 4, 2), ("+", 4, 3),
+            ("←", 5, 0), ("=", 5, 1, 3),
+        ]
+
+        for button in buttons:
+            if len(button) == 3:
+                text, row, col = button
+                colspan = 1
+            else:
+                text, row, col, colspan = button
+            
+            tk_button = tk.Button(
+                self,
+                text=text,
+                font=("Segoe UI", 16),
+                width=4,
+                height=2,
+            )
+
+            tk_button.grid(
+                row=row,
+                column=col,
+                columnspan=colspan,
+                padx=3,
+                pady=3,
+                sticky="nsew",
             )
         
 if __name__ == "__main__":
