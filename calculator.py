@@ -40,10 +40,12 @@ class CalculatorApp(tk.Tk):
         super().__init__()
         self.title("Basic Calculator")
         self.logic = CalculatorLogic()
+        self.just_calculated = False
         self.create_display()
         self.create_buttons()
     
     def create_display(self):
+        """Create the actual part where the expression is shown"""
         self.display_var = tk.StringVar()
         entry = tk.Entry(
             self,
@@ -61,6 +63,7 @@ class CalculatorApp(tk.Tk):
             )
     
     def create_buttons(self):
+        """Put the buttons on the GUI"""
         buttons = [
             ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3),
             ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
@@ -82,6 +85,7 @@ class CalculatorApp(tk.Tk):
                 font=("Segoe UI", 16),
                 width=4,
                 height=2,
+                command=lambda t=text: self.handle_buttons(t)
             )
 
             tk_button.grid(
@@ -93,6 +97,34 @@ class CalculatorApp(tk.Tk):
                 sticky="nsew",
             )
         
+    def handle_buttons(self, label):
+        """Handle the button clicks"""
+        if self.just_calculated and label not in ["=", "C", "←"]:
+            self.logic.clear()
+            self.display_var.set("")
+            self.just_calculated = False
+        if label == "C":
+            self.logic.clear()
+            self.display_var.set("")
+            return
+        elif label == "←":
+            self.logic.backspace()
+            self.display_var.set(self.logic.expression)
+            return
+        elif label == "=":
+            try:
+                result = self.logic.calculate()
+                self.display_var.set(result)
+                self.just_calculated = True
+            except ValueError as e:
+                messagebox.showerror("Error", str(e))
+                self.logic.clear()
+                self.display_var.set("")
+            return
+        else:
+            self.logic.add(label)
+            self.display_var.set(self.logic.expression)
+            
 if __name__ == "__main__":
     app = CalculatorApp()
     app.mainloop()
