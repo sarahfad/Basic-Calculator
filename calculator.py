@@ -41,6 +41,10 @@ class CalculatorApp(tk.Tk):
         self.title("Basic Calculator")
         self.logic = CalculatorLogic()
         self.just_calculated = False
+
+        # Light pink window background
+        self.configure(bg="#FFEFF5")
+
         self.create_display()
         self.create_buttons()
     
@@ -51,7 +55,10 @@ class CalculatorApp(tk.Tk):
             self,
             textvariable=self.display_var,
             font=("Segoe UI", 20),
-            justify="right"
+            justify="right",
+            bg="white",
+            fg="#4A2C3A",
+            bd=2
         )
         entry.grid(
             row=0, 
@@ -64,6 +71,13 @@ class CalculatorApp(tk.Tk):
     
     def create_buttons(self):
         """Put the buttons on the GUI"""
+       
+        # Pink color calc
+        btn_color = "#F6C7D9" 
+        operator_color = "#E5A4C3"
+        clear_color = "#FF9AB9"
+        equals_color = "#FF6FAF"
+
         buttons = [
             ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3),
             ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
@@ -78,6 +92,16 @@ class CalculatorApp(tk.Tk):
                 colspan = 1
             else:
                 text, row, col, colspan = button
+
+            # Based on button type - change the colors
+            if text in "+-*/":
+                color = operator_color
+            elif text == "C":
+                color = clear_color
+            elif text == "=":
+                color = equals_color
+            else:
+                color = btn_color
             
             tk_button = tk.Button(
                 self,
@@ -85,6 +109,10 @@ class CalculatorApp(tk.Tk):
                 font=("Segoe UI", 16),
                 width=4,
                 height=2,
+                bg=color,
+                fg="#4A2C3A",
+                activebackground=color,
+                relief="flat",
                 command=lambda t=text: self.handle_buttons(t)
             )
 
