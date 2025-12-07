@@ -1,4 +1,4 @@
-# basic-calculator
+# Basic Calculator
 
 A simple, pastel-themed calculator built with Python and Tkinter.  
 This project was created as a course assignment to demonstrate GUI development and object-oriented programming pythonic principles.
